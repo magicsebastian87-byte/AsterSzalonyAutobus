@@ -33,7 +33,7 @@ public partial class GPSNavigator : Node3D
         if (MainCamera == null) MainCamera = GetViewport().GetCamera3D();
     }
 
-    public void SetRoute(List<Vector3> waypoints, List<BusStop> stops = null)
+    public void SetRoute(Godot.Collections.Array<Vector3> waypoints, Godot.Collections.Array<BusStop> stops = null)
     {
         RouteWaypoints = waypoints ?? new List<Vector3>();
         RouteStops = stops ?? new List<BusStop>();

@@ -65,12 +65,14 @@ public partial class GameManager : Node
 
     private void SetupRoute()
     {
-        var waypoints = new List<Vector3>
+        var waypoints = new Godot.Collections.Array<Vector3>
         {
             new Vector3(0, 0, 0), new Vector3(0, 0, -500), new Vector3(100, 0, -1000),
             new Vector3(150, 0, -2000), new Vector3(200, 0, -3000)
         };
-        var stops = GetAllBusStops();
+        var stopsList = GetAllBusStops();
+        var stops = new Godot.Collections.Array<BusStop>();
+        foreach (var s in stopsList) stops.Add(s);
         GPSNavigator?.SetRoute(waypoints, stops);
     }
 
