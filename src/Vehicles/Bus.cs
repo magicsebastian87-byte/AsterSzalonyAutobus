@@ -29,10 +29,10 @@ public partial class Bus : VehicleBody3D
     [ExportGroup("Dźwięki i wizualizacja")]
     [Export] public AudioStreamPlayer3D EngineSound;
     [Export] public AudioStreamPlayer3D DriftSound;
-    [Export] public ParticleSystem DriftParticlesFL;
-    [Export] public ParticleSystem DriftParticlesFR;
-    [Export] public ParticleSystem DriftParticlesRL;
-    [Export] public ParticleSystem DriftParticlesRR;
+    [Export] public GpuParticles3D DriftParticlesFL;
+    [Export] public GpuParticles3D DriftParticlesFR;
+    [Export] public GpuParticles3D DriftParticlesRL;
+    [Export] public GpuParticles3D DriftParticlesRR;
 
     private float _currentGear = 1;
     private float _engineRpm = 800f;
