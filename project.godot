@@ -1,0 +1,58 @@
+; Engine configuration file
+config_version = 5
+rendering/rendering_device/driver/vulkan_1_0/enable = true
+rendering/renderer/rendering_method = "mobile"
+rendering/renderer/rendering_method.mobile.override = "forward_plus"
+application/run/main_scene = "res://scenes/Main.tscn"
+application/config/name = "Aster Szalony Autobus"
+application/config/icon = "res://assets/ui/icon.png"
+application/boot_splash/image = "res://assets/ui/splash.png"
+input/shortcuts = {
+"ui_up": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 82, "physical_keycode": 82), Object:InputEventKey("keycode": 265, "physical_keycode": 265)]},
+"ui_down": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 81, "physical_keycode": 81), Object:InputEventKey("keycode": 264, "physical_keycode": 264)]},
+"ui_left": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 80, "physical_keycode": 80), Object:InputEventKey("keycode": 263, "physical_keycode": 263)]},
+"ui_right": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 79, "physical_keycode": 79), Object:InputEventKey("keycode": 262, "physical_keycode": 262)]},
+"ui_accept": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 40, "physical_keycode": 40), Object:InputEventKey("keycode": 257, "physical_keycode": 257)]},
+"ui_cancel": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 41, "physical_keycode": 41), Object:InputEventKey("keycode": 256, "physical_keycode": 256)]},
+"ui_page_up": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 78, "physical_keycode": 78)]},
+"ui_page_down": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 77, "physical_keycode": 77)]},
+"ui_home": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 74, "physical_keycode": 74)]},
+"ui_end": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 75, "physical_keycode": 75)]},
+"ui_select": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 44, "physical_keycode": 44)]},
+"ui_menu": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 83, "physical_keycode": 83)]},
+"accelerate": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 87, "physical_keycode": 87), Object:InputEventKey("keycode": 265, "physical_keycode": 265)]},
+"brake": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 83, "physical_keycode": 83), Object:InputEventKey("keycode": 264, "physical_keycode": 264)]},
+"steer_left": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 65, "physical_keycode": 65), Object:InputEventKey("keycode": 263, "physical_keycode": 263)]},
+"steer_right": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 68, "physical_keycode": 68), Object:InputEventKey("keycode": 262, "physical_keycode": 262)]},
+"handbrake": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 32, "physical_keycode": 32)]},
+"nitro": {"deadzone": 0.5, "events": [Object:InputEventKey("keycode": 16, "physical_keycode": 16)]}
+}
+layer_names/2d_physics/layer_1 = "World"
+layer_names/2d_physics/layer_2 = "Bus"
+layer_names/2d_physics/layer_3 = "Traffic"
+layer_names/2d_physics/layer_4 = "BusStop"
+layer_names/3d_physics/layer_1 = "World"
+layer_names/3d_physics/layer_2 = "Bus"
+layer_names/3d_physics/layer_3 = "Traffic"
+layer_names/3d_physics/layer_4 = "BusStop"
+layer_names/2d_render/layer_1 = "Background"
+layer_names/2d_render/layer_2 = "Game"
+layer_names/2d_render/layer_3 = "UI"
+layer_names/3d_render/layer_1 = "Environment"
+layer_names/3d_render/layer_2 = "Vehicles"
+layer_names/3d_render/layer_3 = "Props"
+autoload = {
+"BusStopManager": "res://src/Stops/BusStopManager.cs",
+"TrafficManager": "res://src/AI/TrafficManager.cs",
+"GameManager": "res://src/GameManager.cs"
+}
+[physics]
+physics/3d/default_gravity = 9.80665
+[rendering]
+rendering/environment/defaults/default_clear_color = Color(0.2, 0.3, 0.4, 1)
+rendering/environment/defaults/default_environment = ExtResource("res://scenes/WorldEnvironment.tres")
+[display]
+display/window/size/viewport_width = 1280
+display/window/size/viewport_height = 720
+display/window/stretch/mode = "canvas_items"
+display/window/stretch/aspect = "keep"

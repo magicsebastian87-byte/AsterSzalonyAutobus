@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid://cj2k3k3k3k3k3]
+
+[ext_resource type="Script" path="res://src/Vehicles/Bus.cs" id="1_3x3x3"]
+
+[node name="Bus" type="VehicleBody3D"]
+script = ExtResource("1_3x3x3")
+collision_layer = 2
+collision_mask = 1
+mass = 15000.0
+center_of_mass = Vector3(0, 1.2, 0.5)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = CylinderMesh(height: 2.0, radius: 1.2)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = BoxShape3D(size: Vector3(2.5, 2.0, 9.0))
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
+
+[node name="WheelFL" type="VehicleWheel3D" parent="."]
+wheel_joint = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 1.0, 4.0)
+suspension_length = 0.2
+suspension_stiffness = 35.0
+suspension_damping = 3.0
+suspension_travel = 0.15
+friction_slip = 10.5
+roll_influence = 0.15
+radius = 0.55
+max_suspension_force = 6000.0
+
+[node name="WheelFR" type="VehicleWheel3D" parent="."]
+wheel_joint = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.0, 4.0)
+suspension_length = 0.2
+suspension_stiffness = 35.0
+suspension_damping = 3.0
+suspension_travel = 0.15
+friction_slip = 10.5
+roll_influence = 0.15
+radius = 0.55
+max_suspension_force = 6000.0
+
+[node name="WheelRL" type="VehicleWheel3D" parent="."]
+wheel_joint = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0, 1.0, -4.0)
+suspension_length = 0.2
+suspension_stiffness = 35.0
+suspension_damping = 3.0
+suspension_travel = 0.15
+friction_slip = 8.5
+roll_influence = 0.15
+radius = 0.55
+max_suspension_force = 6000.0
+
+[node name="WheelRR" type="VehicleWheel3D" parent="."]
+wheel_joint = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.0, 1.0, -4.0)
+suspension_length = 0.2
+suspension_stiffness = 35.0
+suspension_damping = 3.0
+suspension_travel = 0.15
+friction_slip = 8.5
+roll_influence = 0.15
+radius = 0.55
+max_suspension_force = 6000.0

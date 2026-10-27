@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid://dj2k3k3k3k3k3]
+
+[node name="World" type="Node3D"]
+
+[node name="Ground" type="StaticBody3D" parent="."]
+collision_layer = 1
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Ground"]
+shape = BoxShape3D(size: Vector3(2000.0, 1.0, 2000.0))
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Ground"]
+mesh = PlaneMesh(size: Vector2(2000.0, 2000.0), subdivide_width: 100, subdivide_depth: 100, orientation: 0)
+transform = Transform3D(1, 0, 0, 0, 0, -1, 0, 1, 0, 0, 0, 0)
+material = ShaderMaterial()
+material.shader = Shader()
+material.shader.code = """
+shader_type spatial;
+render_mode unshaded, cull_disabled;
+uniform sampler2D texture_albedo : source_color;
+void fragment() {
+    vec2 uv = UV * 100.0;
+    float checker = step(0.5, fract(uv.x) + fract(uv.y));
+    ALBEDO = mix(vec3(0.2, 0.25, 0.15), vec3(0.15, 0.2, 0.12), checker);
+}
+"""
+
+[node name="Road" type="Node3D" parent="."]

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid://bj2k3k3k3k3k3]
+
+[ext_resource type="Script" path="res://src/GameManager.cs" id="1_3x3x3"]
+[ext_resource type="PackedScene" path="res://scenes/Bus.tscn" id="2_3x3x3"]
+[ext_resource type="PackedScene" path="res://scenes/World.tscn" id="3_3x3x3"]
+
+[node name="Main" type="Node3D"]
+script = ExtResource("1_3x3x3")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = ExtResource("res://scenes/WorldEnvironment.tres")
+
+[node name="World" type="Node3D" parent="."]
+instance = ExtResource("3_3x3x3")
+
+[node name="Bus" type="Node3D" parent="."]
+instance = ExtResource("2_3x3x3")

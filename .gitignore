@@ -1,0 +1,38 @@
+# Godot 4
+.godot/
+.idea/
+.vscode/
+*.sln
+*.csproj.user
+bin/
+obj/
+builds/
+*.aab
+*.apk
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Blender
+*.blend1
+*.blend2
+*.blend3
+
+# Android
+local.properties
+.gradle/
+build/
+.cxx/
+*.jks
+*.keystore
+
+# Secrets
+*.env
+*.secrets
+
+# Logs
+*.log
+GodotSharp/Tools/Godot.NET.Sdk/4.3.0/Godot.NET.Sdk.props

@@ -1,0 +1,76 @@
+name: Export Android (AAB)
+on:
+  push: {branches: [main, develop]}
+  pull_request: {branches: [main]}
+  workflow_dispatch:
+    inputs:
+      version_name: {description: 'Version name (e.g. 1.0.0)', required: false, default: '1.0.0'}
+      version_code: {description: 'Version code (integer)', required: false, default: '1'}
+env:
+  GODOT_VERSION: "4.3"
+  PROJECT_NAME: "AsterSzalonyAutobus"
+  EXPORT_NAME: "Android"
+jobs:
+  export-android:
+    name: Export Android AAB
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions: {contents: read, packages: write, actions: read}
+    steps:
+      - uses: actions/checkout@v4
+        with: {lfs: true}
+      - uses: actions/setup-dotnet@v4
+        with: {dotnet-version: '8.0.x'}
+      - name: Restore .NET
+        run: dotnet restore ${{ env.PROJECT_NAME }}.csproj
+      - name: Build .NET
+        run: dotnet build ${{ env.PROJECT_NAME }}.csproj -c Release --no-restore
+      - name: Setup Godot
+        run: |
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          cd /tmp
+          wget -q "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_linux.x86_64.zip" -O godot.zip
+          unzip -q godot.zip
+          chmod +x Godot_v4.3-stable_linux.x86_64
+          sudo mv Godot_v4.3-stable_linux.x86_64 /usr/local/bin/godot
+          wget -q "https://github.com/godotengine/godot-builds/releases/download/4.3-stable/Godot_v4.3-stable_export_templates.tpz" -O templates.tpz
+          unzip -q templates.tpz -d ~/.local/share/godot/export_templates/4.3.stable
+          godot --version
+      - name: Setup Keystore (Debug)
+        run: |
+          mkdir -p ~/.android
+          keytool -genkeypair -v -keystore ~/.android/debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US" 2>/dev/null || true
+      - name: Setup Keystore (Release)
+        if: github.event_name != 'pull_request'
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        run: |
+          if [ -n "$ANDROID_KEYSTORE_BASE64" ]; then echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > ~/.android/release.keystore; echo "Release keystore imported"; else cp ~/.android/debug.keystore ~/.android/release.keystore; fi
+      - name: Update version
+        if: github.event_name != 'pull_request'
+        run: |
+          V="${{ github.event.inputs.version_name || '1.0.0' }}"; C="${{ github.event.inputs.version_code || github.run_number }}"
+          sed -i "s/android\/version_name=.*/android\/version_name=\"$V\"/" export_presets.cfg
+          sed -i "s/android\/version_code=.*/android\/version_code=$C/" export_presets.cfg
+          echo "Version: $V ($C)"
+      - name: Export AAB
+        run: godot --headless --verbose --export-release "Android" builds/${{ env.PROJECT_NAME }}.aab
+      - name: Verify
+        run: ls -la builds/ && file builds/${{ env.PROJECT_NAME }}.aab
+      - uses: actions/upload-artifact@v4
+        with: {name: ${{ env.PROJECT_NAME }}-aab, path: builds/${{ env.PROJECT_NAME }}.aab, retention-days: 30}
+      - uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with: {files: builds/${{ env.PROJECT_NAME }}.aab, generate_release_notes: true}
+      - uses: r0adkll/upload-google-play@v1
+        if: github.event_name != 'pull_request' && secrets.GOOGLE_PLAY_SERVICE_ACCOUNT != ''
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT }}
+          packageName: com.magicsebastian87.aster_szalony_autobus
+          releaseFiles: builds/${{ env.PROJECT_NAME }}.aab
+          track: internal
+          status: completed
+          inAppUpdatePriority: 2
