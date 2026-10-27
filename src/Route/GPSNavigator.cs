@@ -1,5 +1,7 @@
 using Godot;
 using System.Collections.Generic;
+using AsterSzalonyAutobus.Vehicles;
+using AsterSzalonyAutobus.Stops;
 
 namespace AsterSzalonyAutobus.Route;
 
@@ -17,8 +19,8 @@ public partial class GPSNavigator : Node3D
     [Export] public float SmoothingSpeed = 5f;
 
     [ExportGroup("Trasa")]
-    [Export] public List<Vector3> RouteWaypoints = new();
-    [Export] public List<BusStop> RouteStops = new();
+    [Export] public Godot.Collections.Array<Vector3> RouteWaypoints = new();
+    [Export] public Godot.Collections.Array<BusStop> RouteStops = new();
 
     private int _currentWaypointIndex = 0;
     private int _currentStopIndex = 0;
@@ -35,8 +37,8 @@ public partial class GPSNavigator : Node3D
 
     public void SetRoute(Godot.Collections.Array<Vector3> waypoints, Godot.Collections.Array<BusStop> stops = null)
     {
-        RouteWaypoints = waypoints ?? new List<Vector3>();
-        RouteStops = stops ?? new List<BusStop>();
+        RouteWaypoints = waypoints ?? new Godot.Collections.Array<Vector3>();
+        RouteStops = stops ?? new Godot.Collections.Array<BusStop>();
         _currentWaypointIndex = 0; _currentStopIndex = 0; _routeActive = RouteWaypoints.Count > 0;
         UpdateTarget();
         GD.Print($"[GPSNavigator] Trasa: {RouteWaypoints.Count} waypointów, {RouteStops.Count} przystanków");
