@@ -1,5 +1,6 @@
 using Godot;
 using System.Collections.Generic;
+using AsterSzalonyAutobus.Vehicles;
 
 namespace AsterSzalonyAutobus.AI;
 
@@ -8,7 +9,7 @@ public partial class TrafficManager : Node
 {
     [ExportGroup("Prefab i spawn")]
     [Export] public PackedScene TrafficCarScene;
-    [Export] public List<Path3D> TrafficPaths = new();
+    [Export] public Godot.Collections.Array<Path3D> TrafficPaths = new();
     [Export] public int MaxCars = 12;
     [Export] public float SpawnInterval = 8f;
     [Export] public float DespawnDistance = 200f;
